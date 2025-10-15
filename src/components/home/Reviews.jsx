@@ -6,10 +6,62 @@ const TestimonialsCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const testimonials = [
-    { quote: "A terrific piece of praise", name: "Name", description: "Description", avatarColor: "#EF4444" },
-    { quote: "A fantastic bit of feedback", name: "Name", description: "Description", avatarColor: "#8B7355" },
-    { quote: "A genuinely glowing review", name: "Name", description: "Description", avatarColor: "#3B82F6" }
+    { 
+      quote: "This website made it so easy to check which colleges I was eligible for. I didn’t have to visit multiple sites—everything was right here!", 
+      name: "Ananya Sharma", 
+      description: "BBA Aspirant, Noida", 
+      avatarColor: "#3B82F6" 
+    },
+    { 
+      quote: "I was really confused about where I could apply with my Class 12 marks, but this platform helped me shortlist the right colleges in my range.", 
+      name: "Rohan Mehta", 
+      description: "B.Com Student, Gurugram", 
+      avatarColor: "#8B7355" 
+    },
+    { 
+      quote: "Very useful tool for students like me! I got a clear idea about my eligibility for different universities in NCR within minutes.", 
+      name: "Priya Nair", 
+      description: "BCA Student, Ghaziabad", 
+      avatarColor: "#EF4444" 
+    },
+    { 
+      quote: "The eligibility checker saved me so much time. I quickly found colleges offering my preferred course in my budget.", 
+      name: "Vikram Singh", 
+      description: "BA Aspirant, Faridabad", 
+      avatarColor: "#10B981" 
+    },
+    { 
+      quote: "I loved how simple the site was to use. Just entered my marks and instantly got a list of colleges I could actually apply to.", 
+      name: "Sneha Patel", 
+      description: "B.Sc Candidate, Delhi", 
+      avatarColor: "#F59E0B" 
+    },
+    { 
+      quote: "I wasn’t sure where to start after my board results, but this site gave me clarity and confidence about my options.", 
+      name: "Aditya Rao", 
+      description: "BBA Aspirant, Noida", 
+      avatarColor: "#6366F1" 
+    },
+    { 
+      quote: "I shared this tool with my classmates too—it’s perfect for checking realistic college options based on 12th marks.", 
+      name: "Kavya Joshi", 
+      description: "B.Com Student, Greater Noida", 
+      avatarColor: "#EC4899" 
+    },
+    { 
+      quote: "I liked how the results were customized. It showed colleges that matched both my marks and my preferred course.", 
+      name: "Arjun Das", 
+      description: "BCA Student, Gurugram", 
+      avatarColor: "#84CC16" 
+    },
+    { 
+      quote: "This platform reduced my stress before admissions. It helped me find good colleges around Delhi that matched my profile.", 
+      name: "Meera Thomas", 
+      description: "BA Aspirant, Delhi", 
+      avatarColor: "#0EA5E9" 
+    }
   ];
+  
   
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % testimonials.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length);
