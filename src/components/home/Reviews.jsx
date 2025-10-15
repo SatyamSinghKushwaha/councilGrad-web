@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Testimonials Section Component
 const TestimonialsCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const testimonials = [
     { 
-      quote: "This website made it so easy to check which colleges I was eligible for. I didn’t have to visit multiple sites—everything was right here!", 
+      quote: "This website made it so easy to check which colleges I was eligible for. I didn't have to visit multiple sites—everything was right here!", 
       name: "Ananya Sharma", 
       description: "BBA Aspirant, Noida", 
       avatarColor: "#3B82F6" 
@@ -37,13 +36,13 @@ const TestimonialsCarousel = () => {
       avatarColor: "#F59E0B" 
     },
     { 
-      quote: "I wasn’t sure where to start after my board results, but this site gave me clarity and confidence about my options.", 
+      quote: "I wasn't sure where to start after my board results, but this site gave me clarity and confidence about my options.", 
       name: "Aditya Rao", 
       description: "BBA Aspirant, Noida", 
       avatarColor: "#6366F1" 
     },
     { 
-      quote: "I shared this tool with my classmates too—it’s perfect for checking realistic college options based on 12th marks.", 
+      quote: "I shared this tool with my classmates too—it's perfect for checking realistic college options based on 12th marks.", 
       name: "Kavya Joshi", 
       description: "B.Com Student, Greater Noida", 
       avatarColor: "#EC4899" 
@@ -61,7 +60,6 @@ const TestimonialsCarousel = () => {
       avatarColor: "#0EA5E9" 
     }
   ];
-  
   
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % testimonials.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length);
@@ -88,15 +86,21 @@ const TestimonialsCarousel = () => {
         </div>
         
         <div className="relative">
-          <div className="flex gap-6 overflow-hidden">
+          {/* Changed: Removed flex gap-6 and overflow-hidden from parent */}
+          <div className="overflow-hidden">
             <div 
               className="flex gap-6 transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              style={{ 
+                // Changed: Calculate transform based on card width (350px) + gap (24px = 1.5rem)
+                transform: `translateX(calc(-${currentSlide} * (350px + 1.5rem)))` 
+              }}
             >
               {testimonials.map((testimonial, index) => (
                 <div
                   key={index}
-                  className="group relative bg-white/80 backdrop-blur-md rounded-2xl p-8 min-w-full md:min-w-[350px]
+                  // Changed: Removed min-w-full, kept only md:min-w-[350px]
+                  // Added flex-shrink-0 to prevent cards from shrinking
+                  className="group relative bg-white/80 backdrop-blur-md rounded-2xl p-8 w-full md:w-[350px] flex-shrink-0
                             shadow-[0_8px_30px_rgb(0,0,0,0.06)]
                             hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]
                             transition-all duration-500 transform hover:-translate-y-2
