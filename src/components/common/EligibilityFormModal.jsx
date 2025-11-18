@@ -117,7 +117,7 @@ const EligibilityFormModal = ({ onClose }) => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/eligible-colleges", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/students/eligible-colleges`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -125,8 +125,8 @@ const EligibilityFormModal = ({ onClose }) => {
           tenthMarks: Number(formData.tenthMarks),
           twelfthMarks: Number(formData.twelfthMarks),
           desiredCourse: formData.course,
-          budget: Number(formData.budget),
-        }),
+          budget: Number(formData.budget)
+        })
       });
 
       if (!response.ok) throw new Error("Failed to fetch colleges");

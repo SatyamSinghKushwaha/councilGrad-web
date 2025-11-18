@@ -1,5 +1,6 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const EligibleCollegesPage = () => {
   const { state } = useLocation();
@@ -7,38 +8,59 @@ const EligibleCollegesPage = () => {
 
   if (!state || !state.colleges) {
     return (
-      <div className="container py-24 text-center">
-        <p className="text-gray-600">No data found. Please fill the form again.</p>
-        <button
-          onClick={() => navigate("/")}
-          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full"
-        >
-          Go Back
-        </button>
-      </div>
+      <section className="empty-wrapper">
+        <div className="empty-card">
+          <div className="empty-icon">📄</div>
+  
+          <h2 className="empty-title">No Data Found</h2>
+  
+          <p className="empty-text">
+            We couldn’t find your submitted details.  
+            Please fill the form again to view eligible colleges.
+          </p>
+  
+          <button
+            onClick={() => navigate("/")}
+            className="empty-btn"
+          >
+            Fill Form Again
+          </button>
+        </div>
+      </section>
     );
   }
+  
 
   const { colleges, student } = state;
 
   return (
-    <section className="container py-24">
-      <h1 className="page-heading mb-6">Eligible Colleges</h1>
+    <section className="eligible-wrapper">
 
-      <p className="text-gray-600 text-center mb-12">
-        Based on your profile: <strong>{student.course}</strong> • {student.tenthMarks}% (10th) • {student.twelfthMarks}% (12th) • Budget ₹{student.budget}
+      {/* Heading */}
+      <h1 className="eligible-heading">Eligible Colleges</h1>
+
+      {/* Enhanced Subheading */}
+      <p className="eligible-sub">
+        Based on your provided academic details:
+        <br />
+        <span className="eligible-highlight">
+          {student.course} • {student.tenthMarks}% (10th) • {" "}
+          {student.twelfthMarks}% (12th) • Budget ₹{student.budget}
+        </span>
       </p>
 
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-        {colleges.map((college) => (
+      {/* FLEX WRAPPER FOR COLLEGE CARDS */}
+      <div className="eligible-flex">
+        {colleges.map((college, index) => (
           <div
             key={college.id}
-            className="p-5 bg-white/70 backdrop-blur rounded-2xl shadow hover:shadow-lg transition"
+            className="college-card flex-card"
+            style={{ animationDelay: `${index * 0.12}s` }}
           >
-            <h3 className="font-bold text-xl">{college.name}</h3>
-            <p className="text-gray-600 mt-1">{college.course}</p>
+            <h3 className="college-title">{college.name}</h3>
+            <p className="college-sub">{college.course}</p>
 
-            <div className="mt-4 text-sm text-gray-700">
+            <div className="college-details">
               <p>Min 10th: {college.minTenthMarks}%</p>
               <p>Min 12th: {college.minTwelfthMarks}%</p>
               <p>Max Budget: ₹{college.maxBudget}</p>
@@ -46,6 +68,21 @@ const EligibleCollegesPage = () => {
           </div>
         ))}
       </div>
+
+      {/* CTA Section */}
+      <div className="cta-box">
+        <p className="cta-title">Want personalized admission guidance?</p>
+        <button className="cta-btn">📞 Enquire Now</button>
+        <p className="cta-note">
+          Our team will contact you with available seats, fees & scholarship options.
+        </p>
+      </div>
+
+      {/* TnC */}
+      <p className="tnc-text">
+        *TnC: All eligibility data is collected from publicly available sources and may vary with college updates.
+      </p>
+
     </section>
   );
 };
