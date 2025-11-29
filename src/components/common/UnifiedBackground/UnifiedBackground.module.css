@@ -1,0 +1,96 @@
+/* MAIN CONTAINER */
+.bgUnified {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* FLOATING ICON WRAPPER */
+.float {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* GLASS EFFECT FOR ICON HOLDER */
+.glass {
+  padding: 18px;
+  backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* ICON INSIDE */
+.icon {
+  width: 36px;
+  height: 36px;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
+}
+
+/* FLOATING NEON BLOBS */
+.blobBlue,
+.blobPink {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.65;
+}
+
+/* BLUE BLOB (Top-left → Bottom-right → repeat) */
+.blobBlue {
+  background: rgba(96, 165, 250, 0.65);
+  animation: swapBlue 22s linear infinite;
+}
+
+/* PINK BLOB (Bottom-right → Top-left → repeat) */
+.blobPink {
+  background: rgba(236, 72, 153, 0.65);
+  animation: swapPink 22s linear infinite;
+}
+
+/* KEYFRAMES FOR SWAPPING POSITIONS */
+@keyframes swapBlue {
+  0%   { transform: translate(-20%, -20%) rotate(0deg); }
+  50%  { transform: translate(70vw, 70vh) rotate(15deg); }
+  100% { transform: translate(-20%, -20%) rotate(0deg); }
+}
+
+@keyframes swapPink {
+  0%   { transform: translate(70vw, 70vh) rotate(0deg); }
+  50%  { transform: translate(-20%, -20%) rotate(-15deg); }
+  100% { transform: translate(70vw, 70vh) rotate(0deg); }
+}
+
+/* ICON ANIMATIONS */
+@keyframes floatSlow {
+  0%, 100% { transform: translate(0,0) }
+  50% { transform: translate(14px, -14px) }
+}
+@keyframes floatDelayed {
+  0%, 100% { transform: translate(0,0) }
+  50% { transform: translate(-18px, 18px) }
+}
+@keyframes spinSlow {
+  from { transform: rotate(0deg) }
+  to { transform: rotate(360deg) }
+}
+
+.animateSlow {
+  animation: floatSlow 18s ease-in-out infinite;
+}
+
+.animateDelayed {
+  animation: floatDelayed 22s ease-in-out infinite;
+}
+
+.animateSpin {
+  animation: spinSlow 30s linear infinite;
+}

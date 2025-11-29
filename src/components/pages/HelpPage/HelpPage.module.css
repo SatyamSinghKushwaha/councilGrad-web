@@ -1,0 +1,20 @@
+.wrapper {
+  padding: 4rem 1rem;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.faqItem {
+  margin-bottom: 2rem;
+}
+
+.question {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1f2937;
+}
+
+.answer {
+  margin-top: 0.4rem;
+  color: #4b5563;
+}
