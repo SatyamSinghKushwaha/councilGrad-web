@@ -14,11 +14,11 @@ const CourseCollegesPage = () => {
   const [loadingColleges, setLoadingColleges] = useState(false);
   const [error, setError] = useState("");
 
-  // Load programs on mount
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
         setLoadingMeta(true);
+        setError("");
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/programs`);
         if (!res.ok) throw new Error("Failed to load programs");
 
@@ -30,10 +30,10 @@ const CourseCollegesPage = () => {
         setLoadingMeta(false);
       }
     };
+
     fetchPrograms();
   }, []);
 
-  // Load courses when program changes
   useEffect(() => {
     if (!selectedProgramId) {
       setCourses([]);
@@ -44,6 +44,7 @@ const CourseCollegesPage = () => {
     const fetchCourses = async () => {
       try {
         setLoadingMeta(true);
+        setError("");
         const res = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/courses?programId=${selectedProgramId}`
         );
@@ -57,10 +58,10 @@ const CourseCollegesPage = () => {
         setLoadingMeta(false);
       }
     };
+
     fetchCourses();
   }, [selectedProgramId]);
 
-  // Load colleges when course changes
   useEffect(() => {
     if (!selectedCourseId) {
       setColleges([]);
@@ -70,6 +71,7 @@ const CourseCollegesPage = () => {
     const fetchColleges = async () => {
       try {
         setLoadingColleges(true);
+        setError("");
         const res = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/courses/${selectedCourseId}/colleges`
         );
@@ -83,6 +85,7 @@ const CourseCollegesPage = () => {
         setLoadingColleges(false);
       }
     };
+
     fetchColleges();
   }, [selectedCourseId]);
 
@@ -101,10 +104,11 @@ const CourseCollegesPage = () => {
           <DropdownField
             label="Program"
             value={selectedProgramId}
-            onChange={(v) => {
-              setSelectedProgramId(v);
+            onChange={(value) => {
+              setSelectedProgramId(value);
               setSelectedCourseId("");
               setColleges([]);
+              setError("");
             }}
             options={programs}
             placeholder={loadingMeta ? "Loading programs..." : "Select program"}
@@ -120,8 +124,8 @@ const CourseCollegesPage = () => {
               !selectedProgramId
                 ? "Select program first"
                 : loadingMeta
-                ? "Loading courses..."
-                : "Select course"
+                  ? "Loading courses..."
+                  : "Select course"
             }
           />
         </div>
@@ -129,11 +133,10 @@ const CourseCollegesPage = () => {
         {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
       </div>
 
-      {/* Colleges list */}
       {selectedCourseId && (
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {loadingColleges ? (
-            <p className="text-center text-gray-600">Loading colleges…</p>
+            <p className="text-center text-gray-600">Loading colleges...</p>
           ) : colleges.length === 0 ? (
             <p className="text-center text-gray-600">
               No colleges found for this course yet.
@@ -149,7 +152,7 @@ const CourseCollegesPage = () => {
                   college={college}
                   extra={
                     college.feePerYear && (
-                      <p>Approx. Fee / year: ₹{college.feePerYear}</p>
+                      <p>Approx. Fee / year: Rs. {college.feePerYear}</p>
                     )
                   }
                 />

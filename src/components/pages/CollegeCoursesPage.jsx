@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DropdownField from "../common/DropdownField";
-import PageWrapper from "../common/PageWrapper";   // <-- NEW
+import PageWrapper from "../common/PageWrapper";
 
 const CollegeCoursesPage = () => {
   const [colleges, setColleges] = useState([]);
@@ -10,19 +10,16 @@ const CollegeCoursesPage = () => {
   const [loadingCourses, setLoadingCourses] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch all colleges
   useEffect(() => {
     const fetchColleges = async () => {
       try {
         setLoadingColleges(true);
         setError("");
-        const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/colleges`
-        );
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colleges`);
         if (!res.ok) throw new Error("Failed to load colleges");
         const data = await res.json();
         setColleges(data);
-      } catch (err) {
+      } catch {
         setError("Unable to load colleges. Please try again later.");
       } finally {
         setLoadingColleges(false);
@@ -32,7 +29,6 @@ const CollegeCoursesPage = () => {
     fetchColleges();
   }, []);
 
-  // Fetch courses for selected college
   useEffect(() => {
     if (!selectedCollegeId) {
       setCourses([]);
@@ -49,7 +45,7 @@ const CollegeCoursesPage = () => {
         if (!res.ok) throw new Error("Failed to load courses");
         const data = await res.json();
         setCourses(data);
-      } catch (err) {
+      } catch {
         setError("Unable to load courses for this college.");
       } finally {
         setLoadingCourses(false);
@@ -66,7 +62,8 @@ const CollegeCoursesPage = () => {
       </h1>
 
       <p className="hero-subtext text-center text-gray-700 mb-8">
-        Select a college to see all programs, courses and specializations it provides.
+        Select a college to see all programs, courses and specializations it
+        provides.
       </p>
 
       <div className="bg-white/80 rounded-2xl shadow-lg p-6 md:p-8 mb-10 backdrop-blur-md border border-gray-200">
@@ -80,16 +77,13 @@ const CollegeCoursesPage = () => {
           }
         />
 
-        {error && (
-          <p className="mt-3 text-sm text-red-500">{error}</p>
-        )}
+        {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
       </div>
 
-      {/* Courses list */}
       {selectedCollegeId && (
         <div className="grid gap-4 md:grid-cols-2">
           {loadingCourses ? (
-            <p className="text-center text-gray-600">Loading courses…</p>
+            <p className="text-center text-gray-600">Loading courses...</p>
           ) : courses.length === 0 ? (
             <p className="text-center text-gray-600">
               No courses found for this college.
@@ -119,7 +113,7 @@ const CollegeCoursesPage = () => {
 
                 {item.feePerYear && (
                   <p className="text-sm text-gray-700">
-                    Fee / year: ₹{item.feePerYear}
+                    Fee / year: Rs. {item.feePerYear}
                   </p>
                 )}
 

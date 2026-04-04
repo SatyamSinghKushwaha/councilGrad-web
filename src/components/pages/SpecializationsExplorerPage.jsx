@@ -6,6 +6,7 @@ const SpecializationsExplorerPage = () => {
   const [programs, setPrograms] = useState([]);
   const [courses, setCourses] = useState([]);
   const [specializations, setSpecializations] = useState([]);
+  const [allSpecializations, setAllSpecializations] = useState([]);
 
   const [selectedProgramId, setSelectedProgramId] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState("");
@@ -13,36 +14,45 @@ const SpecializationsExplorerPage = () => {
   const [loadingMeta, setLoadingMeta] = useState(false);
   const [error, setError] = useState("");
 
-  // Load programs
   useEffect(() => {
-    const fetchPrograms = async () => {
+    const fetchProgramsAndSpecializations = async () => {
       try {
         setLoadingMeta(true);
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/programs`);
-        if (!res.ok) throw new Error("Failed to load programs");
+        setError("");
+        const [programsRes, specializationsRes] = await Promise.all([
+          fetch(`${import.meta.env.VITE_BACKEND_URL}/api/programs`),
+          fetch(`${import.meta.env.VITE_BACKEND_URL}/api/specializations`),
+        ]);
+        if (!programsRes.ok || !specializationsRes.ok) {
+          throw new Error("Failed to load data");
+        }
 
-        setPrograms(await res.json());
+        setPrograms(await programsRes.json());
+        const specializationsData = await specializationsRes.json();
+        setAllSpecializations(specializationsData);
+        setSpecializations(specializationsData);
       } catch {
-        setError("Unable to load programs.");
+        setError("Unable to load specializations right now.");
       } finally {
         setLoadingMeta(false);
       }
     };
-    fetchPrograms();
+
+    fetchProgramsAndSpecializations();
   }, []);
 
-  // Load courses for program
   useEffect(() => {
     if (!selectedProgramId) {
       setCourses([]);
       setSelectedCourseId("");
-      setSpecializations([]);
+      setSpecializations(allSpecializations);
       return;
     }
 
     const fetchCourses = async () => {
       try {
         setLoadingMeta(true);
+        setError("");
         const res = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/courses?programId=${selectedProgramId}`
         );
@@ -55,19 +65,20 @@ const SpecializationsExplorerPage = () => {
         setLoadingMeta(false);
       }
     };
-    fetchCourses();
-  }, [selectedProgramId]);
 
-  // Load specializations for course
+    fetchCourses();
+  }, [selectedProgramId, allSpecializations]);
+
   useEffect(() => {
     if (!selectedCourseId) {
-      setSpecializations([]);
+      setSpecializations(allSpecializations);
       return;
     }
 
     const fetchSpecializations = async () => {
       try {
         setLoadingMeta(true);
+        setError("");
         const res = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/courses/${selectedCourseId}/specializations`
         );
@@ -80,8 +91,9 @@ const SpecializationsExplorerPage = () => {
         setLoadingMeta(false);
       }
     };
+
     fetchSpecializations();
-  }, [selectedCourseId]);
+  }, [selectedCourseId, allSpecializations]);
 
   return (
     <PageWrapper>
@@ -90,7 +102,8 @@ const SpecializationsExplorerPage = () => {
       </h1>
 
       <p className="hero-subtext text-center mb-8 text-gray-700">
-        Drill down from program → course → specialization.
+        Browse every specialization immediately, or narrow it down by program
+        and course.
       </p>
 
       <div className="bg-white/85 rounded-2xl shadow-lg p-6 md:p-8 mb-10 backdrop-blur-md border border-gray-200">
@@ -98,10 +111,11 @@ const SpecializationsExplorerPage = () => {
           <DropdownField
             label="Program"
             value={selectedProgramId}
-            onChange={(v) => {
-              setSelectedProgramId(v);
+            onChange={(value) => {
+              setSelectedProgramId(value);
               setSelectedCourseId("");
               setSpecializations([]);
+              setError("");
             }}
             options={programs}
             placeholder={loadingMeta ? "Loading programs..." : "Select program"}
@@ -117,8 +131,8 @@ const SpecializationsExplorerPage = () => {
               !selectedProgramId
                 ? "Select program first"
                 : loadingMeta
-                ? "Loading courses..."
-                : "Select course"
+                  ? "Loading courses..."
+                  : "Select course"
             }
           />
         </div>
@@ -126,14 +140,15 @@ const SpecializationsExplorerPage = () => {
         {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
       </div>
 
-      {/* Specializations list */}
       {selectedCourseId && (
         <div className="grid gap-4 md:grid-cols-2">
           {loadingMeta ? (
-            <p className="text-center text-gray-600">Loading specializations…</p>
+            <p className="text-center text-gray-600">
+              Loading specializations...
+            </p>
           ) : specializations.length === 0 ? (
             <p className="text-center text-gray-600">
-              No specializations found for this course.
+              No specializations found for this selection.
             </p>
           ) : (
             specializations.map((spec, idx) => (
@@ -142,9 +157,13 @@ const SpecializationsExplorerPage = () => {
                 className="college-card p-4 rounded-2xl shadow-md bg-white/90 border border-gray-100 animate-fade-in"
                 style={{ animationDelay: `${idx * 0.08}s` }}
               >
-                <h3 className="text-lg font-semibold text-gray-900">{spec.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {spec.name}
+                </h3>
                 {spec.description && (
-                  <p className="mt-1 text-sm text-gray-700">{spec.description}</p>
+                  <p className="mt-1 text-sm text-gray-700">
+                    {spec.description}
+                  </p>
                 )}
               </div>
             ))

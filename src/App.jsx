@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import UnifiedBackground from "./components/common/UnifiedBackground/UnifiedBackground";
+import ScrollToTop from "./components/common/ScrollToTop";
 import Navbar from "./components/layout/Navbar/Navbar";
 import HeroSection from "./components/home/HeroSection/HeroSection";
 import Reviews from "./components/home/Reviews/Reviews";
@@ -14,12 +15,14 @@ import SpecializationsExplorerPage from "./components/pages/SpecializationsExplo
 
 import HelpPage from "./components/pages/HelpPage/HelpPage";
 import AboutPage from "./components/pages/AboutPage/AboutPage";
+import AdminPage from "./components/pages/AdminPage/AdminPage";
 
 import "./styles/global.css";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="app-root">
         <UnifiedBackground />
 
@@ -51,6 +54,7 @@ const App = () => {
 
             <Route path="/about" element={<AboutPage />} />
             <Route path="/help" element={<HelpPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
 
           <Footer />

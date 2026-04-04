@@ -4,7 +4,7 @@ import styles from "./Reviews.module.css";
 const REVIEWS = [
   {
     quote:
-      "CouncilGrad helped me shortlist colleges based on my actual marks and budget.",
+      "CouncilGrad helped me shortlist colleges based on my actual marks instead of generic suggestions.",
     name: "Rohan Sharma",
     role: "B.Tech Aspirant (Delhi)",
   },
@@ -16,13 +16,13 @@ const REVIEWS = [
   },
   {
     quote:
-      "Loved how quick the process was. No confusing filters — just clean results that make sense.",
+      "Loved how quick the process was. No confusing filters - just clean results that make sense.",
     name: "Ananya Gupta",
     role: "Class 12 (CBSE)",
   },
   {
     quote:
-      "Finally found colleges I hadn't even heard of, but perfectly fit my score and budget.",
+      "Finally found colleges I hadn't even heard of, but they matched my score really well.",
     name: "Mohammed Arif",
     role: "Engineering Aspirant (Hyderabad)",
   },
@@ -34,7 +34,7 @@ const REVIEWS = [
   },
   {
     quote:
-      "Loved the UI — calm, modern and student-friendly. No clutter like other portals.",
+      "Loved the UI - calm, modern and student-friendly. No clutter like other portals.",
     name: "Kritika Jain",
     role: "NEET Dropper",
   },
@@ -46,7 +46,7 @@ const REVIEWS = [
   },
   {
     quote:
-      "Budget filter is so helpful. Other sites never let you filter realistically.",
+      "The course-first search is genuinely useful. Other sites make this part feel much harder.",
     name: "Rajveer Singh",
     role: "BCA Aspirant (Punjab)",
   },
@@ -94,7 +94,6 @@ const REVIEWS = [
   },
 ];
 
-// Smooth left → right movement (3 cards visible)
 const EXTENDED = [...REVIEWS, ...REVIEWS, ...REVIEWS];
 
 const Reviews = () => {
@@ -127,7 +126,7 @@ const Reviews = () => {
           {EXTENDED.map((item, i) => (
             <div key={i} className={styles.slide}>
               <div className={styles.card}>
-                <p className={styles.quote}>“{item.quote}”</p>
+                <p className={styles.quote}>"{item.quote}"</p>
 
                 <div className={styles.user}>
                   <div className={styles.avatar}></div>

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./UnifiedBackground.module.css";
 
-// SVG icons
 import hat from "../../../assets/icons/edu/hat.svg";
 import graduate from "../../../assets/icons/edu/graduate.svg";
 import books from "../../../assets/icons/edu/bag.svg";
@@ -12,7 +11,6 @@ import edgrad from "../../../assets/icons/edu/education-graduate.svg";
 import bulb from "../../../assets/icons/edu/bulb.svg";
 
 const ICONS = [hat, graduate, books, award, search, frograd, edgrad, bulb];
-
 const SIZES = ["scale(0.75)", "scale(0.9)", "scale(1)", "scale(1.2)"];
 const ANIMS = [styles.animateSlow, styles.animateDelayed, styles.animateSpin];
 
@@ -32,11 +30,9 @@ const UnifiedBackground = () => {
 
   return (
     <div className={styles.bgUnified}>
-      {/* Floating Neon Blobs */}
       <div className={styles.blobBlue}></div>
       <div className={styles.blobPink}></div>
 
-      {/* Floating Icons */}
       {items.map((item) => (
         <div
           key={item.id}

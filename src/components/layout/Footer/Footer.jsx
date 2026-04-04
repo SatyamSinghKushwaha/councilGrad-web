@@ -1,8 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Instagram, Linkedin, Twitter } from "lucide-react";
 import styles from "./Footer.module.css";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer className={styles.footer}>
       <div className={styles.grid}>
@@ -17,16 +22,19 @@ const Footer = () => {
           <h4 className={styles.heading}>Explore</h4>
           <ul>
             <li>
-              <Link to="/eligible">Eligible Colleges</Link>
+              <Link to="/" onClick={scrollToTop}>
+                Eligibility Checker
+              </Link>
             </li>
             <li>
-              <Link to="/college-courses">College Courses</Link>
+              <Link to="/college-courses" onClick={scrollToTop}>
+                Colleges & Courses
+              </Link>
             </li>
             <li>
-              <Link to="/course-colleges">Colleges by Course</Link>
-            </li>
-            <li>
-              <Link to="/specializations">Specializations</Link>
+              <Link to="/course-colleges" onClick={scrollToTop}>
+                Find Colleges
+              </Link>
             </li>
           </ul>
         </div>
@@ -35,10 +43,14 @@ const Footer = () => {
           <h4 className={styles.heading}>Company</h4>
           <ul>
             <li>
-              <Link to="/about">About</Link>
+              <Link to="/about" onClick={scrollToTop}>
+                About
+              </Link>
             </li>
             <li>
-              <Link to="/help">Help / FAQ</Link>
+              <Link to="/help" onClick={scrollToTop}>
+                Help / FAQ
+              </Link>
             </li>
           </ul>
         </div>
@@ -46,21 +58,21 @@ const Footer = () => {
         <div>
           <h4 className={styles.heading}>Connect</h4>
           <div className={styles.socials}>
-            <a href="#">
-              <i className="ri-twitter-line"></i>
-            </a>
-            <a href="#">
-              <i className="ri-linkedin-fill"></i>
-            </a>
-            <a href="#">
-              <i className="ri-instagram-line"></i>
-            </a>
+            <button type="button" aria-label="Twitter">
+              <Twitter size={18} aria-hidden="true" />
+            </button>
+            <button type="button" aria-label="LinkedIn">
+              <Linkedin size={18} aria-hidden="true" />
+            </button>
+            <button type="button" aria-label="Instagram">
+              <Instagram size={18} aria-hidden="true" />
+            </button>
           </div>
         </div>
       </div>
 
       <div className={styles.bottom}>
-        © {new Date().getFullYear()} CouncilGrad — All Rights Reserved.
+        Copyright {new Date().getFullYear()} CouncilGrad - All Rights Reserved.
       </div>
     </footer>
   );

@@ -63,7 +63,8 @@ ul li a:hover {
   margin-top: 0.7rem;
 }
 
-.socials a {
+.socials a,
+.socials button {
   font-size: 1.3rem;
   color: #e5e5e5;
   padding: 0.55rem;
@@ -71,9 +72,13 @@ ul li a:hover {
   border-radius: 50%;
   transition: 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.socials a:hover {
+.socials a:hover,
+.socials button:hover {
   background: rgba(255, 255, 255, 0.18);
   transform: scale(1.2);
 }

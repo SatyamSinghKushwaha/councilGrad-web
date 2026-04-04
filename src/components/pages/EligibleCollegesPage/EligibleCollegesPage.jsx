@@ -3,33 +3,50 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PageWrapper from "../../common/PageWrapper";
 import CollegeCard from "../../common/CollegeCard";
 import styles from "./EligibleCollegesPage.module.css";
+import InterestedStudentModal from "../../common/InterestedStudentModal/InterestedStudentModal";
+
+const ELIGIBILITY_RESULTS_KEY = "councilgrad.eligibilityResults";
+
+const loadStoredEligibilityResults = () => {
+  try {
+    const raw = sessionStorage.getItem(ELIGIBILITY_RESULTS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
 const EligibleCollegesPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [openLeadForm, setOpenLeadForm] = React.useState(false);
+  const resultState = state?.colleges ? state : loadStoredEligibilityResults();
 
-  if (!state || !state.colleges) {
+  if (!resultState || !resultState.colleges) {
     return (
-      <section className={styles.emptyWrapper}>
-        <div className={styles.emptyCard}>
-          <div className={styles.emptyIcon}>📄</div>
-          <h2 className={styles.emptyTitle}>No Data Found</h2>
-          <p className={styles.emptyText}>
-            We couldn’t find your submitted details.
-            Please fill the form again to view eligible colleges.
-          </p>
-          <button
-            onClick={() => navigate("/")}
-            className={styles.emptyBtn}
-          >
-            Fill Form Again
-          </button>
-        </div>
-      </section>
+      <PageWrapper>
+        <section className={styles.emptyWrapper}>
+          <div className={styles.emptyCard}>
+            <div className={styles.emptyIcon}>!</div>
+            <h2 className={styles.emptyTitle}>No Data Found</h2>
+            <p className={styles.emptyText}>
+              We could not find your submitted details. Please fill the form
+              again to view eligible colleges.
+            </p>
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className={styles.emptyBtn}
+            >
+              Fill Form Again
+            </button>
+          </div>
+        </section>
+      </PageWrapper>
     );
   }
 
-  const { colleges, student } = state;
+  const { colleges, student } = resultState;
 
   return (
     <PageWrapper>
@@ -39,8 +56,9 @@ const EligibleCollegesPage = () => {
         Based on your academic details:
         <br />
         <span className={styles.highlight}>
-          {student.course} • {student.tenthMarks}% (10th) •{" "}
-          {student.twelfthMarks}% (12th) • Budget ₹{student.budget}
+          {student.course} | {student.tenthMarks}% (10th) |{" "}
+          {student.twelfthMarks}% (12th)
+          {student.specialization ? ` | ${student.specialization}` : ""}
         </span>
       </p>
 
@@ -61,9 +79,12 @@ const EligibleCollegesPage = () => {
                 extra={
                   <div className="text-xs leading-relaxed space-y-1">
                     <p>Course: {college.course}</p>
+                    {college.specialization && (
+                      <p>Specialization: {college.specialization}</p>
+                    )}
                     <p>Min 10th Marks: {college.minTenthMarks}%</p>
                     <p>Min 12th Marks: {college.minTwelfthMarks}%</p>
-                    <p>Max Budget: ₹{college.maxBudget}</p>
+                    {college.feePerYear && <p>Approx. Fee / year: Rs. {college.feePerYear}</p>}
                   </div>
                 }
               />
@@ -74,15 +95,30 @@ const EligibleCollegesPage = () => {
 
       <div className={styles.ctaBox}>
         <p className={styles.ctaTitle}>Need personalized admission guidance?</p>
-        <button className={styles.ctaBtn}>📞 Enquire Now</button>
+        <button
+          type="button"
+          className={styles.ctaBtn}
+          onClick={() => setOpenLeadForm(true)}
+        >
+          Enquire Now
+        </button>
         <p className={styles.ctaNote}>
-          Our team will contact you with seat availability, fee details and scholarships.
+          Our team will contact you with seat availability, fee details and
+          scholarships.
         </p>
       </div>
 
       <p className={styles.tnc}>
-        *TnC: Eligibility data is based on publicly available sources and may change as colleges update criteria.
+        *TnC: Eligibility data is based on publicly available sources and may
+        change as colleges update criteria.
       </p>
+
+      {openLeadForm && (
+        <InterestedStudentModal
+          sourcePage="eligible-results"
+          onClose={() => setOpenLeadForm(false)}
+        />
+      )}
     </PageWrapper>
   );
 };

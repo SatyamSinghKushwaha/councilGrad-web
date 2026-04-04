@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Shield } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
@@ -12,16 +13,12 @@ const Navbar = () => {
           Council<span className={styles.brandStrong}>Grad</span>
         </Link>
 
-        {/* Desktop Links */}
         <div className={`hidden md:flex items-center gap-6 ${styles.navLinks}`}>
           <Link to="/college-courses" className={styles.navLink}>
-            College → Courses
+            Colleges & Courses
           </Link>
           <Link to="/course-colleges" className={styles.navLink}>
-            Course → Colleges
-          </Link>
-          <Link to="/specializations" className={styles.navLink}>
-            Specializations
+            Find Colleges
           </Link>
           <Link to="/help" className={styles.navLink}>
             Help
@@ -29,9 +26,11 @@ const Navbar = () => {
           <Link to="/about" className={styles.navLink}>
             About
           </Link>
+          <Link to="/admin" className={styles.adminLink} aria-label="Admin login">
+            <Shield size={18} />
+          </Link>
         </div>
 
-        {/* Mobile Toggle */}
         <button
           className="mobile-toggle md:hidden"
           onClick={() => setOpen(!open)}
@@ -57,23 +56,22 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {open && (
         <div className={`${styles.mobileMenu} md:hidden text-gray-700`}>
           <Link to="/college-courses" onClick={() => setOpen(false)}>
-            College → Courses
+            Colleges & Courses
           </Link>
           <Link to="/course-colleges" onClick={() => setOpen(false)}>
-            Course → Colleges
-          </Link>
-          <Link to="/specializations" onClick={() => setOpen(false)}>
-            Specializations
+            Find Colleges
           </Link>
           <Link to="/help" onClick={() => setOpen(false)}>
             Help
           </Link>
           <Link to="/about" onClick={() => setOpen(false)}>
             About
+          </Link>
+          <Link to="/admin" onClick={() => setOpen(false)}>
+            Admin
           </Link>
         </div>
       )}
